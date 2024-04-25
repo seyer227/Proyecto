@@ -1,0 +1,1 @@
+from .user_repository import select_all,select_calidad_articulo
