@@ -3,7 +3,8 @@ import asyncio
 from ..model.user_model import User
 from ..service.user_service import select_all_user_service,select_user_by_email_service,create_user_service,delete_user_service
 from ..notify import notify_component
-
+from ..routes import Route
+from Usuarios.components.navbar import navbar
 
 class UserState(rx.State):
     #states
@@ -34,7 +35,8 @@ class UserState(rx.State):
         async with self:
             self.users = select_user_by_email_service(self.user_buscar)
     
-    async def handleNotify(self): # esto es un componente 
+    async def handleNotify(self): # esto es un componente
+        async with self: 
             await asyncio.sleep(2)
             self.error=''
     
@@ -48,24 +50,27 @@ class UserState(rx.State):
 
 
 # creacion de la pagina y su configuracion 
-@rx.page(route='/user',title='user', on_load=UserState.get_all_user)
+@rx.page(route=Route.USER.value,title='user', on_load=UserState.get_all_user)
 def user_page()-> rx.Component:
-    return rx.flex(
-        rx.heading('Usuarios',align='center'),
-        rx.hstack(
-            buscar_user_component(),
-            create_user_dialogo_component(),
-            justify='end',
-            style={'margin-top':'30px'}
-        ),
-        table_user(UserState.users),
-        rx.cond(
-            UserState.error != '',
-            notify_component(UserState.error,'shield-alert','yellow')
-        ),
-        direction= 'column',
-        style = {"width":"60vw","margin":"auto"}
-)
+    return rx.chakra.box(
+        navbar(),
+        rx.flex(
+            rx.heading('Usuarios',align='center'),
+            rx.hstack(
+                buscar_user_component(),
+                create_user_dialogo_component(),
+                justify='end',
+                style={'margin-top':'30px'}
+            ),
+            table_user(UserState.users),
+            rx.cond(
+                UserState.error != '',
+                notify_component(UserState.error,'shield-alert','yellow')
+            ),
+            direction= 'column',
+            style = {"width":"60vw","margin":"auto"}
+        )
+    )
 # es la creacion de la taba 
 def table_user(list_user:list[User])->rx.Component:
     return rx.table.root(

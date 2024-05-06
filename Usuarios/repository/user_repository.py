@@ -35,3 +35,22 @@ def delete_user(email:str):
         session.commit()
         query = select(User)
         return session.exec (query).all()
+
+#def select_user_login(email : str,password : str):
+#    engine = connect()
+#    with Session(engine) as session:
+#        query = select(User.username,User.password).where(User.username==email,User.password==password)
+#        print (query)
+#        return session.exec(query).all()
+
+def select_user_login(email: str, password: str,):
+    engine = connect()
+    with Session(engine) as session:
+        query = select(User.username, User.password,User.name).where(User.username == email, User.password == password)
+        result = session.exec(query).fetchall()
+        print (result)
+        if result:
+            return [{'username': row[0], 'password': row[1]} for row in result]
+        else:
+            return None  # O cualquier otro indicador de que no se encontraron coincidencias
+

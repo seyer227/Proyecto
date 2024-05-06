@@ -10,7 +10,7 @@ def notify_component(message :str,icon_notify:str,color:str)->rx.Component:
 
 style_notify = {
     'position':'fixed',
-    'top':'0px',
+    'top':'200px',
     'right':'0px',
-    'margin':'10 px 10px'
+    'margin':'10px 10px'
 }
