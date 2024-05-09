@@ -24,9 +24,11 @@ def create_user_service(username: str,password:str,phone:str,name:str):
         print('el usuario ya existe')
         raise BaseException('El usario ya existe')
 
+#eliminacion de usuarios
 def delete_user_service(email:str):
     return delete_user(email=email)
 
+#Acceso al portal
 def select_user_login_service(email: str, password: str):
     if len(email) != 0 and len(password) != 0:
         user = select_user_login(email, password)

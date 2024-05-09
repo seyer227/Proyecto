@@ -1,1 +1,3 @@
 from .user_repository import select_all_usuarios,select_user_by_email,create_user,delete_user,select_user_login
+from .calidad_repository import select_all_calidad, select_calidad_articulo
+from .navegacion_repository import select_user_navegacion

@@ -3,6 +3,7 @@ import Usuarios.styles.styles as styles
 from Usuarios.page.user_page import user_page
 from Usuarios.page.Menu import Menu_page
 from Usuarios.page.Login import login_page
+from Usuarios.page.AlertaCalidad import alerta_page
 
 class State (rx.State):
     """Define your app state here."""

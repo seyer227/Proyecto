@@ -36,12 +36,6 @@ def delete_user(email:str):
         query = select(User)
         return session.exec (query).all()
 
-#def select_user_login(email : str,password : str):
-#    engine = connect()
-#    with Session(engine) as session:
-#        query = select(User.username,User.password).where(User.username==email,User.password==password)
-#        print (query)
-#        return session.exec(query).all()
 
 def select_user_login(email: str, password: str,):
     engine = connect()
