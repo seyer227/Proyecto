@@ -59,6 +59,7 @@ def user_page()-> rx.Component:
             rx.hstack(
                 buscar_user_component(),
                 create_user_dialogo_component(),
+                administrar_navegacion(),
                 justify='end',
                 style={'margin-top':'30px'}
             ),
@@ -98,13 +99,20 @@ def row_table(user:User)-> rx.Component:
     )
 
 
+def administrar_navegacion () -> rx.Component:
+    return rx.hstack(
+        rx.chakra.link(
+            rx.button("Example"),
+            href=Route.ADMINISTRADORNAVEGACION.value,
+        )
+    )
+
 # creo el boton de buscar usuario 
 def buscar_user_component()-> rx.Component:
     return rx.hstack(
         rx.input(placeholder='Ingrese email', on_change=UserState.buscar_on_change),
         rx.button('Buscar usuario', on_click=UserState.get_user_by_email)
     )
-    
 #Creo el formulario para agregar usuarios
 def create_user_form()->rx.Component:
     return rx.form(

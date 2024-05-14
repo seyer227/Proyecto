@@ -6,37 +6,36 @@ from Usuarios.styles.styles import Size
 from ..service.navegacion_service import select_user_navegacion_service
 from Usuarios.page.Login import LoginState
 
-x=True
-class ToggleState(rx.State):
-    show: bool = x  # Variable para controlar la visibilidad
 
 def index_links() -> rx.Component:
     return rx.chakra.vstack(
         title("Navegacion a modulos"),
         rx.cond(
-            ToggleState.show,  # Condición
+            LoginState.show_calidad,  # Condición
             link_button(
-            "Usuarios",
-            "Alta y Baja de Usuarios",
-            "/icons/user-solid.svg",
-            Route.USER.value,
-            is_external=False,
-        ),
-            #rx.text("")  # Se muestra si la condición es False
-        ),
-        rx.chakra.hstack(
-        link_button(
-            "Usuarios",
-            "Alta y Baja de Usuarios",
-            "/icons/user-solid.svg",
-            Route.USER.value,
-            is_external=False,
-        ),
-        link_button(
             "Calidad",
-            "Alertas calidad",
+            "Alertas Calidad",
             "/icons/calidad.svg",
             Route.CALIDAD.value,
+            is_external=False,
+        ),
+        ),
+        rx.chakra.hstack(
+        rx.cond(
+        LoginState.show_usuarios,
+        link_button(
+            "Usuarios",
+            "Alta y Baja de Usuarios",
+            "/icons/user-solid.svg",
+            Route.USER.value,
+            is_external=False,
+        ),
+        ),
+        link_button(
+            "CALENDARIO",
+            "Registro asistencias",
+            "/icons/calendar.svg",
+            Route.CALENDARIO.value,
             is_external=False,
         ),
         

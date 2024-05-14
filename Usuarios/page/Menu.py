@@ -2,12 +2,13 @@ import reflex as rx
 import Usuarios.styles.styles as styles
 from Usuarios.components.navbar import navbar
 from Usuarios.views.Index_menu import index_links
+from Usuarios.page.Login import LoginState
 from Usuarios.styles.styles import Size
 from ..routes import Route
 
 
 
-@rx.page(route=Route.MENU.value, title='Menu')
+@rx.page(route=Route.MENU.value, title='Menu',on_load=LoginState.validar_permisos)
 def Menu_page() -> rx.Component:
     return rx.chakra.box(
         navbar(),

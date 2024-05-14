@@ -44,7 +44,7 @@ def select_user_login(email: str, password: str,):
         result = session.exec(query).fetchall()
         print (result)
         if result:
-            return [{'username': row[0], 'password': row[1]} for row in result]
+            return [{'username': row[0], 'password': row[1],} for row in result]
         else:
             return None  # O cualquier otro indicador de que no se encontraron coincidencias
 

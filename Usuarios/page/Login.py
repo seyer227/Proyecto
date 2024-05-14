@@ -8,12 +8,19 @@ from ..routes import Route
 from Usuarios.styles.styles import Size
 from Usuarios.components.navbar_login import navbar
 from typing import Optional
+from ..service.navegacion_service import select_user_navegacion_service
+
+
 
 class LoginState(rx.State):
     users: list[User]
     user_buscar: str
     password_buscar: str
     error: str = ''
+    permisos: dict = {}
+    show_calidad: bool = False
+    show_usuarios: bool = False
+    show_calendario: bool= False
 
     def reset_fields(self):
         self.user_buscar = ''
@@ -34,6 +41,8 @@ class LoginState(rx.State):
                     if self.users:
                         # Guardar el nombre de usuario después del inicio de sesión
                         self.save_logged_user(self.users[0]['username'])
+                        #rx.LocalStorage['logged_user'] = self.users[0]['username']
+                        self.permisos = select_user_navegacion_service(self.users[0]['username'])
                         self.reset_fields()  # Resetear los campos de usuario y contraseña
                         return rx.redirect(Route.MENU.value)
                     else:
@@ -53,12 +62,32 @@ class LoginState(rx.State):
             await asyncio.sleep(2)
             self.error=''
     
-    logged_user: Optional[str] = None  # Variable para almacenar el nombre de usuario después del inicio de sesión
+    logged_user: str = ''  # Variable para almacenar el nombre de usuario después del inicio de sesión
 
     # Método para guardar el nombre de usuario después del inicio de sesión
     def save_logged_user(self, username: str):
         self.logged_user = username
 
+    # Método para guardar el nombre de usuario después del inicio de sesión
+    def get_logged_user(self) -> str:
+        return self.logged_user
+
+
+    def validar_permisos(self):
+        if self.permisos['calidad']=='si':
+            self.show_calidad= True
+        else :
+            self.show_calidad=False
+        
+        if self.permisos['usuarios']=='si':
+            self.show_usuarios= True
+        else :
+            self.show_usuarios=False
+        
+        if self.permisos['calendario']=='si':
+            self.show_calendario= True
+        else :
+            self.show_calendario=False
 
 
 @rx.page(route=Route.INDEX.value, title='Login')
